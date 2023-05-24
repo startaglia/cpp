@@ -6,7 +6,7 @@
 /*   By: startagl <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 11:50:57 by startagl          #+#    #+#             */
-/*   Updated: 2023/05/24 12:24:25 by startagl         ###   ########.fr       */
+/*   Updated: 2023/05/24 15:15:19 by startagl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,9 @@ int main (void)
 	{
 		getline(std::cin, cmd);
 		if (cmd == "ADD")
-		{
-
 			rubrica.add();
-		}
 		else if (cmd == "SEARCH")
-		{
-			std::cout << "FUNZIONE SEARCH" << std::endl;
 			rubrica.search();	
-		}
-		// else if (cmd != "ADD" || cmd != "SEARCH")
 		else
 		{
 			std::cout << "ERROR" << std::endl;
