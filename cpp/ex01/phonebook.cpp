@@ -6,7 +6,7 @@
 /*   By: startagl <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 12:09:49 by startagl          #+#    #+#             */
-/*   Updated: 2023/05/24 17:03:18 by startagl         ###   ########.fr       */
+/*   Updated: 2023/06/05 11:02:55 by startagl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,17 +93,27 @@ void	phonebook::printTitleTab()
 void	phonebook::printContact(int j)
 {
 	std::cout << "|" << std::left << std::setw(10) << j;
+	std::string name = _phonebook[j].getName();
 	if (_phonebook[j].getName().length() > 9)
 	{
-		std::string name = _phonebook[j].getName();
 		name.resize(9);
 		name[name.length() - 1] = '.';
-    	std::cout << "|" << std::left << std::setw(10) << name;
 	}
-    // std::cout << "|" << std::left << std::setw(10) << _phonebook[j].getName();
-    std::cout << "|" << std::left << std::setw(10) << _phonebook[j].getSurname();
-    std::cout << "|" << std::left << std::setw(10) << _phonebook[j].getNickname();
-    std::cout << "|" << std::endl;
+    std::cout << "|" << std::left << std::setw(10) << name;
+	std::string surname = _phonebook[j].getSurname();
+	if (_phonebook[j].getSurname().length() > 9)
+	{
+		surname.resize(9);
+		surname[surname.length() - 1] = '.';
+	}
+    std::cout << "|" << std::left << std::setw(10) << surname;
+	std::string nickname = _phonebook[j].getNickname();
+	if (_phonebook[j].getNickname().length() > 9)
+	{
+		nickname.resize(9);
+		nickname[nickname.length() - 1] = '.';
+	}
+    std::cout << "|" << std::left << std::setw(10) << nickname << "|" << std::endl;
 }
 
 // contact	phonebook::add()
