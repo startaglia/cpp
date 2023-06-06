@@ -6,92 +6,28 @@
 /*   By: startagl <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 12:09:49 by startagl          #+#    #+#             */
-/*   Updated: 2023/06/06 12:04:48 by startagl         ###   ########.fr       */
+/*   Updated: 2023/06/06 16:12:11 by startagl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lib.h"
 
-// phonebook::phonebook()
-// {
-// 	i = 0;
-// }
+phonebook::phonebook()
+{
+	numContacts = 0;
+}
 
 phonebook::~phonebook()
 {
+    ;
 }
-// void	phonebook::add()
-// {
-// 	contact newContact;
-// 	// if (i < 9)
-// 	// {
-// 			if (numContacts < 8) // Verifica se il numero di contatti è inferiore a 8
-// 			{
-// 				_phonebook[numContacts] = newContact; // Aggiungi il nuovo contatto all'indice corrispondente a numContacts
-// 				++numContacts; // Incrementa il numero di contatti
-// 			}
-// 			 else // Il numero di contatti è uguale a 8, sostituisci il primo contatto
-// 			{
-// 				for (int i = 0; i < 7; ++i)
-// 				{
-// 					_phonebook[i] = _phonebook[i + 1]; // Sposta tutti i contatti di un posto verso l'indice inferiore
-// 				}
-// 				_phonebook[7] = newContact; // Aggiungi il nuovo contatto all'ultimo indice
-// 			}
-// 		// if (this->i == 8)
-// 		// 	i = 0;
-// 		std::cout << "index: " << i << std::endl;
-// 		//*NAME
-// 		std::string name;
-// 		std::cout << "Insert name: ";
-// 		std::getline(std::cin, name);
-// 		this->_phonebook[i].setName(name);
 
-// 		//*SURNAME
-// 		std::string surname;
-// 		std::cout << "Insert surname: ";
-// 		std::getline(std::cin, surname);
-// 		this->_phonebook[i].setSurname(surname);
-
-// 		//*NICKNAME
-// 		std::string nickname;
-// 		std::cout << "Insert nickname: ";
-// 		std::getline(std::cin, nickname);
-// 		this->_phonebook[i].setNickName(nickname);
-
-// 		//*NUMBER
-// 		std::string number;
-// 		std::cout << "Insert number: ";
-// 		std::getline(std::cin, number);
-// 		this->_phonebook[i].setNumber(number);
-
-// 		//*SECRET
-// 		std::string secret;
-// 		std::cout << "Insert secret: ";
-// 		std::getline(std::cin, secret);
-// 		this->_phonebook[i].setSecret(secret);
-
-// 		// i++;
-// 	// }
-// }
 void phonebook::add()
 {
-    contact newContact;
-
-    if (numContacts < 3) // Verifica se il numero di contatti è inferiore a 8
-    {
-        _phonebook[numContacts] = newContact; // Aggiungi il nuovo contatto all'indice corrispondente a numContacts
-        ++numContacts; // Incrementa il numero di contatti
-    }
-    else // Il numero di contatti è uguale a 8, sovrascrivi il primo contatto
-    {
-        // for (int i = 0; i < 7; ++i)
-        // {
-        //     _phonebook[i] = _phonebook[i + 1]; // Sposta tutti i contatti di un posto verso l'indice inferiore
-        // }
-		numContacts = 0;
-        _phonebook[numContacts] = newContact; // Aggiungi il nuovo contatto all'ultimo indice
-    }
+    if (numContacts == 8)
+        numContacts = 0;
+    if (numContacts < 8)
+        ++numContacts;
 
     std::cout << "index: " << numContacts - 1 << std::endl;
 
@@ -124,32 +60,71 @@ void phonebook::add()
     std::cout << "Insert secret: ";
     std::getline(std::cin, secret);
     _phonebook[numContacts - 1].setSecret(secret);
-
-	std::cout << "NOME UTLIMO CONTATTO" << _phonebook[2].getName();;
 }
-
-
-// void	phonebook::search()
-// {
-// 	int j = 0;
-// 	// int numContacts = this->_phonebook.size();
-// 	this->printTitleTab();
-// 	while (j < numContacts)
-// 	{
-// 		this->printContact(j);
-// 		j++;
-// 	}
-// }
 
 void phonebook::search()
 {
+    int index;
+    int j = -1;
+
     this->printTitleTab();
-	int	j = -1;
-    while (++j < 3)
-	{
+    while (++j < 8)
         this->printContact(j);
-	}
+    std::string inpt;
+    std::cout << "INSERT INDEX: ";
+
+    while (std::cin >> inpt)
+    {
+        // if (std::cin.eof())
+        // {
+        //     std::cout << "Fine del file di input." << std::endl;
+        //     break;
+        // }
+        try
+        {
+            index = std::stoi(inpt);
+            if (index >= 0 && index < 8)
+            {
+                this->printFullContact(index);
+                std::cout << std::endl;
+                std::cout << "\t" << ANSI_COLOR_GREEN << "ADD" << ANSI_COLOR_RESET;
+                std::cout << "\t\t\t" << ANSI_COLOR_BLUE << "SEARCH" << ANSI_COLOR_RESET;
+                std::cout << "\t\t\t" << ANSI_COLOR_RED << "EXIT" << ANSI_COLOR_RESET;
+                std::cout << std::endl;
+                return;
+            }
+            else
+            {
+                std::cout << "INVALID NUMBER." << std::endl;
+                j = -1;
+                this->printTitleTab();
+                while (++j < 8)
+                    this->printContact(j);
+                std::cout << std::endl;
+            }
+        }
+        catch (const std::invalid_argument& e)
+        {
+            std::cout << "INVALID CHAR." << std::endl;
+            j = -1;
+            this->printTitleTab();
+            while (++j < 8)
+                this->printContact(j);
+            std::cout << std::endl;
+        }
+        catch (const std::out_of_range& e)
+        {
+            std::cout << "NUMBER MUST BE IN AN INT RANGE." << std::endl;
+            j = -1;
+            this->printTitleTab();
+            while (++j < 8)
+                this->printContact(j);
+            std::cout << std::endl;
+        }
+        std::cout << "INSERT INDEX: ";
+    }
 }
+
 void	phonebook::printTitleTab()
 {
 	std::cout << "|" << std::left << std::setw(10) << "INDEX";
@@ -158,10 +133,6 @@ void	phonebook::printTitleTab()
     std::cout << "|" << std::left << std::setw(10) << "NICKNAME";
     std::cout << "|" << std::endl;
 }
-//! TO DO
-	//! *COLORARE LA TABELLA
-	//! *INSERIRE LA RICHIESTA INDEX ED IMPLEMENTARE I DATI SOLO DI QUEL CAMPO
-	//! *PULIRE IL CODICE E DIVIDERLO BENE PER FUNZIONI
 
 void	phonebook::printContact(int j)
 {
@@ -187,16 +158,14 @@ void	phonebook::printContact(int j)
 		nickname[nickname.length() - 1] = '.';
 	}
     std::cout << "|" << std::left << std::setw(10) << nickname << "|" << std::endl;
+
 }
-
-// contact	phonebook::add()
-// {
-// 	contact newContact;
-
-// 	std::string name;
-// 	std::cout<<"insert name: "<<std::endl;
-// 	std::cin >> name;
-// 	newContact.setName(name);
-// 	std::cout << newContact.getName()<<std::endl;
-// 	return (newContact);
-// }
+void	phonebook::printFullContact(int j)
+{
+    std::cout << "INDEX\t : \t" << std::left << j << std::endl;
+	std::cout << "NAME\t : \t" << std::left << _phonebook[j].getName() << std::endl;
+    std::cout << "SURNAME\t : \t" << std::left << _phonebook[j].getSurname() << std::endl;
+    std::cout << "NICKNAME : \t" << std::left << _phonebook[j].getNickname() << std::endl;
+    std::cout << "NUMBER\t : \t" << std::left << _phonebook[j].getNumber() << std::endl;
+    std::cout << "SECRET\t : \t" << std::left << _phonebook[j].getSecret() << std::endl;
+}
